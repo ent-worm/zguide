@@ -1,4 +1,3 @@
-
 .output chapter1.wd
 .bookmark basics
 
@@ -121,12 +120,18 @@ Hello |    | World
 
 The REQ-REP socket pair is in lockstep. The client issues {{zmq_send[3]}} and then {{zmq_recv[3]}}, in a loop (or once if that's all it needs). Doing any other sequence (e.g., sending two messages in a row) will result in a return code of -1 from the {{send}} or {{recv}} call. Similarly, the service issues {{zmq_recv[3]}} and then {{zmq_send[3]}} in that order, as often as it needs to.
 
+REQ-REP套接字对是完全同步的。client使用{{zmq_send[3]}}发送详细，然后循环{{zmq_recv[3]}}接受消息（或者只按照需求等待一次）。乱序（如连续发送两次消息）调用{{send}}或者{{recv}}都将导致返回-1。同理，服务也必须按照顺序，先{{zmq_recv[3]}}然后{{zmq_send[3]}}，按需循环。
+
 0MQ uses C as its reference language and this is the main language we'll use for examples. If you're reading this online, the link below the example takes you to translations into other programming languages. Let's compare the same server in C++:
+
+0MQ使用C作为参考手册的语言，同时C也是我们用来作为示例的语言。如果你是在在线浏览手册，那么例子下面的链接提供了其他语言的“翻译”。让我们看一下C++版本的server：
 
 [[code type="example" title="Hello World server" name="hwserver" language="C++"]]
 [[/code]]
 
 You can see that the 0MQ API is similar in C and C++. In a language like PHP or Java, we can hide even more and the code becomes even easier to read:
+
+你会发现，C和C++版本的0MQ API非常的相似。而对于PHP或Java等语言，我们甚至可以隐藏起更多的细节，代码更为简洁：
 
 [[code type="example" title="Hello World server" name="hwserver" language="PHP"]]
 [[/code]]
@@ -136,16 +141,26 @@ You can see that the 0MQ API is similar in C and C++. In a language like PHP or 
 
 Here's the client code:
 
+以下是client的代码：
+
 [[code type="example" title="Hello World client" name="hwclient"]]
 [[/code]]
 
 Now this looks too simple to be realistic, but 0MQ sockets have, as we already learned, superpowers. You could throw thousands of clients at this server, all at once, and it would continue to work happily and quickly. For fun, try starting the client and //then// starting the server, see how it all still works, then think for a second what this means.
 
+看起来还不够实用？但是我们已经说过了，0MQ套接字有着超能力。你可以一次性抛出成千上百个client给这个server，而它仍然工作的欢快无比。好玩的是，你也可以先启动client，*然后*才启动server，看看它是否还工作，想想看，这意味着什么？
+
 Let us explain briefly what these two programs are actually doing. They create a 0MQ context to work with, and a socket. Don't worry what the words mean. You'll pick it up. The server binds its REP (reply) socket to port 5555. The server waits for a request in a loop, and responds each time with a reply. The client sends a request and reads the reply back from the server.
+
+让我们简单的解释一下这两段程序到底做了什么。他们打开了一份0MQ上下文以及一个套接字。先别急着弄懂这些词，你会明白的。server绑定了一个5555号端口的REP（应答）套接字，然后在循环中等待请求，每次回复一个应答。而client就是给server发送请求并读取应答。
 
 If you kill the server (Ctrl-C) and restart it, the client won't recover properly. Recovering from crashing processes isn't quite that easy. Making a reliable request-reply flow is complex enough that we won't cover it until [#reliable-request-reply].
 
+如果你杀死了server进程（Ctrl-C）并重启，client不能正确的恢复。想恢复挂掉的进程可没那么容易。我们将在[#可靠请求-应答]解决如何可靠的请求-应答这一难题。
+
 There is a lot happening behind the scenes but what matters to us programmers is how short and sweet the code is, and how often it doesn't crash, even under a heavy load. This is the request-reply pattern, probably the simplest way to use 0MQ. It maps to RPC and the classic client/server model.
+
+这东西背后有不少机制，但是对我们重要的是，这些代码短小精悍，高负荷下也不会轻易出错。这就是请求-应答模式，0MQ最简单的使用方法。它映射了RPC协议以及经典的client/server模型。
 
 ++ A Minor Note on Strings
 
