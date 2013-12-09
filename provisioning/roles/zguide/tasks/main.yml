@@ -1,0 +1,22 @@
+- name: apt update cache
+  apt: update_cache=yes
+
+- name: apt upgrade system
+  apt: upgrade=full
+
+- name: Install packages
+  action: apt pkg=$item state=present
+  with_items:
+  - pstoedit
+  # - pygmentize
+  - python-pygments
+  # - docbook2ps
+  - docbook-utils
+  # - ps2pdf
+  - ghostscript
+  - dbtoepub
+  # - rasterizer
+  - libbatik-java
+  - inkscape
+  - xmlto
+  sudo: yes
