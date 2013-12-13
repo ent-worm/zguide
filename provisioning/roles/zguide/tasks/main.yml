@@ -1,8 +1,8 @@
 - name: apt update cache
   apt: update_cache=yes
 
-- name: apt upgrade system
-  apt: upgrade=full
+# - name: apt upgrade system
+#   apt: upgrade=full
 
 - name: Install packages
   action: apt pkg=$item state=present
