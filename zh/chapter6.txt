@@ -1,113 +1,114 @@
 .output chapter6.wd
 .bookmark the-community
-+ The 0MQ Community
++ 0MQ社区
 
-People sometimes ask me what's so special about 0MQ. My standard answer is that 0MQ is arguably the best answer we have to the vexing question of "How do we make the distributed software that the 21st century demands?" But more than that, 0MQ is special because of its community. This is ultimately what separates the wolves from the sheep.
+有人问我0MQ为什么这么特别。我的标准答案是：毫无疑问，0MQ是“怎么写出满足21世纪需求的分布式软件”这种问题的最佳答案。但除此之外，0MQ更因为其社区而与众不同。这才是狼与羊的最大区别。
 
-There are three main open source patterns. The first is the large firm dumping code to break the market for others. This is the Apache Foundation model. The second is tiny teams or small firms building their dream. This is the most common open source model, which can be very successful commercially. The last is aggressive and diverse communities that swarm over a problem landscape. This is the Linux model, and the one to which we aspire with 0MQ.
+主要有三种开源模式。一种是大公司狂写代码抢占市场，这是Apache基金会采取的模式。第二种是小的团队或公司为实现梦想而奋斗，这是最常见的开源模式，同样也可以在商业上获取成功。最后是一群积极进取而又彼此不同的人，在一系列问题上各展神通，这是Linux模式，也是我们渴望0MQ成为的模式。
 
-It's hard to overemphasize the power and persistence of a working open source community. There really does not seem to be a better way of making software for the long term. Not only does the community choose the best problems to solve, it solves them minimally, carefully, and it then looks after these answers for years, decades, until they're no longer relevant, and then it quietly puts them away.
+再怎么强调开源社区的能量和持久性也不为过，而且貌似也没有什么比其创造的软件更久远。这是因为社区选了最棒的问题、一步步仔细的解决它、年复一年细心的照顾它、直到不再有用才悄无声息的扔掉它。
 
-To really benefit from 0MQ, you need to understand the community. At some point down the road you'll want to submit a patch, an issue, or an add-on. You might want to ask someone for help. You will probably want to bet a part of your business on 0MQ, and when I tell you that the community is much, much more important than the company that backs the product, even though I'm CEO of that company, this should be significant.
+想真正从0MQ受益，你得明白它的社区。这条路的某个路口，你可能会想提交补丁、提意见或插件。你也可能会寻求帮助。你还可能孤注一掷将0MQ用在你的事业之中，那即便我是0MQ背后公司的CEO，还是得坦诚告诉你，社区远远比我们公司更为重要、也更有意义。
 
-In this chapter I'm going to look at our community from several angles and conclude by explaining in detail our contract for collaboration, which [http://rfc.zeromq.org/spec:22 we call "C4"]. You should find the discussion useful for your own work. We've also adapted the 0MQ C4 process for closed source projects with good success.
+这一章节，我将从多角度来观察并总结0MQ社区协同工作的合约，我们称之为[http://rfc.zeromq.org/spec:22 C4]。你会发现这些讨论对你的工作大有裨益。我们也为一些成功的闭源项目修改了C4。
 
-We'll cover:
+我们会提到：
 
-* The rough structure of 0MQ as a set of projects
-* What "software architecture" is really about
-* Why we use the LGPL and not the BSD license
-* How we designed and grew the 0MQ community
-* The business that backs 0MQ
-* Who owns the 0MQ source code
-* How to make and submit a patch to 0MQ
-* Who controls what patches actually go into 0MQ
-* How we guarantee compatibility with old code
-* Why we don't use public git branches
-* Who decides on the 0MQ road map
-* A worked example of a change to {{libzmq}}
+* 0MQ系列项目的大概结构
+* 什么是“软件架构”
+* 为什么我们用LGPL而非BSD许可
+* 我们是怎么设计并培养0MQ社区的
+* 0MQ背后的商业
+* 谁拥有0MQ的源代码
+* 怎么制作补丁并提交给0MQ
+* 谁决定了补丁最终合入0MQ代码
+* 我们如何保证已有代码的兼容性
+* 我们为什么不用公开的git分支
+* 谁决定了0MQ的路线图
+* 一个修改{{libzmq}}的实例
 
-++ Architecture of the 0MQ Community
+++ 0MQ社区结构
 
-You know that 0MQ is an LGPL-licensed project. In fact it's a collection of projects, built around the core library, {{libzmq}}. I'll visualize these projects as an expanding galaxy:
+你可能知道0MQ是LGPL许可的项目。事实上，它是围绕{{libzmq}}核心库的一系列项目的集合。我用一个扩展星系来描述它：
 
-* At the core, {{libzmq}} is the 0MQ core library. It's written in C++, with a low-level C API. The code is nasty, mainly because it's highly optimized but also because it's written in C++, a language that lends itself to subtle and deep nastiness. Martin Sustrik wrote the bulk of this code. Today it has dozens of people who maintain different parts of it.
+* {{libzmq}}是0MQ最最核心的库。它带有底层C的API，用C++完成的。这部分代码很乱，主要是因为用C++高度优化过，而C++本身太难驾驭。Martin Sustrik完成其中大部分代码，如今，已经有好几十号人维护着代码的不同部分。
 
-* Around {{libzmq}}, there are about 50 //bindings//. These are individual projects that create higher-level APIs for 0MQ, or at least map the low-level API into other languages. The bindings vary in quality from experimental to utterly awesome. Probably the most impressive binding is [https://github.com/zeromq/pyzmq PyZMQ], which was one of the first community projects on top of 0MQ. If you are a binding author, you should really study PyZMQ and aspire to making your code and community as great.
+* 围绕{{libzmq}}，大概有50种语言的//绑定//。这些独立项目是给0MQ提高了一些高层API，或者至少把底层API映射到其他语言。它们的质量参差不齐，从一些试验到棒至不可思议的项目都有。可能最让人吃惊的就是[https://github.com/zeromq/pyzmq PyZMQ]，它是社区最棒的项目之一。如果你是某种语言绑定的作者，你真的应该研究一下PyZMQ是怎么写好代码并维护好社区的。
 
-* A lot of languages have multiple bindings (Erlang, Ruby, C#, at least) written by different people over time, or taking varying approaches. We don't regulate these in any way. There are no "official" bindings. You vote by using one or the other, contributing to it, or ignoring it.
+* 很多语言有多个版本的绑定（Erlang, Ruby, C#等），它们由不同人或用不同方法实现的。但是我们并不约束它们，因为它们并非“官方”绑定。使用、贡献或者无视它们都是你的自由。
 
-* There are a series of reimplementations of {{libzmq}}, starting with JeroMQ, a full Java translation of the library, which is now the basis for NetMQ, a C# stack. These native stacks offer similar or identical APIs, and speak the same protocol (ZMTP) as {{libzmq}}.
+* 还有一系列用其他语言实现的{{libzmq}}，最早是JeroMQ，一种Java的翻译，如今用在NetMQ（一个C#栈）中。这些原生的库都提供了相同或相似的API，和{{libzmq}}一样使用相同的协议（ZMTP）。
 
-* On top of the bindings are a lot of projects that use 0MQ or build on it. See the "Labs" page on the wiki for a long list of projects and proto-projects that use 0MQ in some way. There are frameworks, web servers like Mongrel2, brokers like Majordomo, and enterprise open source tools like Storm.
+* 在这些绑定之上，还有很多用0MQ做出来的项目。你可以在wiki中的“Labs”页看到一长串项目，他们多多少少都用到了0MQ。其中包括一些框架、web服务（Mongrel2）、中间件（Majordomo）以及公司的开源工具（Strom）。
 
-{{Libzmq}}, most of the bindings, and some of the outer projects sit in the [https://github.com/organizations/zeromq 0MQ community "organization"] on GitHub. This organization is "run" by a group consisting of the most senior binding authors. There's very little to run as it's almost all self-managing and there's zero conflict these days.
+{{Libzmq}}、大部分绑定及其他外围项目都在Github上的[https://github.com/organizations/zeromq 0MQ组织]中。这个组织是由一群资深的绑定作者“管理”的。其实也没什么好管理的，因为基本上都是自己管自己的项目，也没有什么纷争。
 
-iMatix, my firm, plays a specific role in the community. We own the trademarks and enforce them discretely in order to make sure that if you download a package calling itself "ZeroMQ", you can trust what you are getting. People have on rare occasion tried to hijack the name, maybe believing that "free software" means there is no property at stake and no one willing to defend it. One thing you'll understand from this chapter is how seriously we take the process behind our software (and I mean "us" as a community, not a company). iMatix backs the community by enforcing that process on anything calling itself "ZeroMQ" or "0MQ". We also put money and time into the software and packaging for reasons I'll explain later.
+iMatix，我的公司，在这个社区中有着特殊的角色。我们拥有商标，强制它们彼此分离，以此来保证你下的每个叫“ZeroMQ”的包都是你真正想要的。有些人也尝试过劫持这个名字，或许是觉得“自由软件”就意味着它不属于任何人，没人会站出来保护它。这一章里，你就会懂得我们（我是指社区而非公司）有多重视软件背后的流程。iMatix公司支撑着整个社区，就是靠强制每个称自己为“ZeroMQ”或“0MQ”的东西都要走这个流程。我们为软件和打包投入了金钱和时间，具体原因我稍后会解释。
 
-It is not a charity exercise. 0MQ is a for-profit project, and a very profitable one. The profits are widely distributed among all those who invest in it. It's really that simple: take the time to become an expert in 0MQ, or build something useful on top of 0MQ, and you'll find your value as an individual, or team, or company increasing. iMatix enjoys the same benefits as everyone else in the community. It's win-win to everyone except our competitors, who find themselves facing a threat they can't beat and can't really escape. 0MQ dominates the future world of massively distributed software.
+这可不是个慈善练习。0MQ是一个利益驱动的项目，事实上，是个非常赚钱的项目。利润也都分给了那些投资给它的人们。很简单：花时间在0MQ上成为专家，或者用0MQ作出什么有用的东西，你会发现无论是个人、团队、还是公司的价值都会有提升。iMatix和社区中的每个人一样，享受这些好处。这对每个人来说都是双赢的。当然不包括那些为此感到恐惧却又无法摆脱的竞争对手。0MQ主宰了大规模分布式软件的未来。
 
-My firm doesn't just have the community's back--we also built the community. This was deliberate work; in the original 0MQ white paper from 2007, there were two projects. One was technical, how to make a better messaging system. The second was how to build a community that could take the software to through to dominant success. Software dies, but community survives.
+我的公司不仅是社区的依靠，其实我们建立了整个社区。这是我们有意为之，从2007年0MQ的最初设想，实际上有两个项目。一个是技术上，怎么建造一个更好的消息系统。另一个就是怎么创造一个社区，引领软件走向成功。结果是软件挂掉了，社区却成功活下来了。
 
-++ How to Make Really Large Architectures
++++ 怎么建造相当大规模的架构
 
-There are, it has been said (at least by people reading this sentence out loud), two ways to make really large-scale software. Option One is to throw massive amounts of money and problems at empires of smart people, and hope that what emerges is not yet another career killer. If you're very lucky and are building on lots of experience, have kept your teams solid, and are not aiming for technical brilliance, and are furthermore incredibly lucky, it works.
+据说（至少人们读到过），建造相当大规模的软件有两种办法。其一是花大量的钱把问题扔个最聪明的人，并祈祷结果别是把人都逼走了。如果你有足够经验，能把人团结起来，还能瞄准目标，甚至足够幸运，还是能做到的。
 
-But gambling with hundreds of millions of others' money isn't for everyone. For the rest of us who want to build large-scale software, there's Option Two, which is open source, and more specifically, //free software//. If you're asking how the choice of software license is relevant to the scale of the software you build, that's the right question.
+但是不是每个人都能获得百万投资。剩下的人如果想建造大规模软件，只有第二种选择，那就是开源，更具体的说是//自由软件//。如果你想问怎么为你造的软件选一个许可，你问对问题了。
 
-The brilliant and visionary Eben Moglen once said, roughly, that a free software license is the contract on which a community builds. When I heard this, about ten years ago, the idea came to me--//Can we deliberately grow free software communities//?
+聪明睿智的Eben Moglen曾经说过，软件许可是一个社区建立的缔约。我大概在10年前听到这个说法，而想法随之而来——//我们能否依此建立自由软件社区呢？//
 
-Ten years later, the answer is "yes", and there is almost a science to it. I say "almost" because we don't yet have enough evidence of people doing this deliberately with a documented, reproducible process. It is what I'm trying to do with [http://softwareandsilicon.com/chapter:2#toc5 Social Architecture]. 0MQ came after Wikidot, after the [http://www.digistan.org Digital Standards Organization] (Digistan) and after the [http://www.ffii.org Foundation for a Free Information Infrastructure] (aka the FFII, an NGO that fights against software patents). This all came after a lot of less successful community projects like Xitami and Libero. My main takeaway from a long career of projects of every conceivable format is: if you want to build truly large-scale and long-lasting software, aim to build a free software community.
+十年后，答案是“yes”，而且这似乎是有科学道理的。我说“似乎”是因为我们还没有足够的证据，因为没有其他人用文档记录下同样的过程。这也是为什么我写了[http://softwareandsilicon.com/chapter:2#toc5 社区架构]。0MQ出现在Wikidot，遵循[http://www.digistan.org 数字标准组织](Digistan)以及[http://www.ffii.org 自由信息平台组织]（又名FFII，一个为软件专利而作斗争的无政府组织）之后。这些都是在一些不怎么成功的项目（如Xitami和Libero）之后出现的。从这些项目的漫长历史中我收获到的启示是：如果你想建造一个真正大规模、长时间的软件，那就建造一个自由软件社区。
 
-+++ Psychology of Software Architecture
++++ 软件架构心理学
 
-Dirkjan Ochtman pointed me to [http://en.wikipedia.org/wiki/Software_architecture Wikipedia's definition of Software Architecture] as "the set of structures needed to reason about the system, which comprise software elements, relations among them, and properties of both". For me this vapid and circular jargon is a good example of how miserably little we understand what actually makes a successful large scale software architecture.
+Dirkjan Ochtman向我指出[http://en.wikipedia.org/wiki/Software_architecture 软件架构]是“关于系统如何被合理的组织，包括软件的组件、之间的关系以及二者的属性”。对我来说，这个饶舌而无趣的术语就是为何我们悲催的不明白如何建造一个成功的大规模软件架构的原因之一。
 
-Architecture is the art and science of making large artificial structures for human use. If there is one thing I've learned and applied successfully in 30 years of making larger and larger software systems, it is this: //software is about people//. Large structures in themselves are meaningless. It's how they function for //human use// that matters. And in software, human use starts with the programmers who make the software itself.
+架构是一门艺术，也是一门科学，是建造给人用的人工结构。如果说我在过去30年在建造越来越大的软件系统中学到了什么，那就是：//软件是关于人的事//。大的结构本身是没有什么意义的，他们被//人//用成什么样才最重要。而在软件中，人的使用从那些建造这些软件的程序员开始。
 
-The core problems in software architecture are driven by human psychology, not technology. There are many ways our psychology affects our work. I could point to the way teams seem to get stupider as they get larger or when they have to work across larger distances. Does that mean the smaller the team, the more effective? How then does a large global community like 0MQ manage to work successfully?
+软件架构中最核心的问题是由人的心理驱动而非技术驱动。心理从各方面影响我们的工作。我能指出一些团队看起来变呆了的原因，比如他们扩建团队了，或者他们远距离分散工作。但这是不是意味着团队越小，效率越高呢？那像0MQ这样一个大的全球性社区又是如何成功的呢？
 
-The 0MQ community wasn't accidental. It was a deliberate design, my contribution to the early days when the code came out of a cellar in Bratislava. The design was based on my pet science of "Social Architecture", which [http://en.wikipedia.org/wiki/Social_architecture Wikipedia defines] as "the conscious design of an environment that encourages a desired range of social behaviors leading towards some goal or set of goals." I define this as more specifically as "the process, and the product, of planning, designing, and growing an online community."
+0MQ的成功并非偶然。它是经过有意的设计，是我在最早代码出现在Bratislava的地下室里时的贡献。这个设计是基于我的“社会架构”，也就是[http://en.wikipedia.org/wiki/Social_architecture 维基百科]定义的“设计一个鼓励社会个体追求一些或一系列目标的环境”。我把把更具体的定义为“过程、产品、经过计划、设计并最终成长为在线社区”。
 
-One of the tenets of Social Architecture is that //how we organize// is more significant than //who we are//. The same group, organized differently, can produce wholly different results. We are like peers in a 0MQ network, and our communication patterns have a dramatic impact on our performance. Ordinary people, well connected, can far outperform a team of experts using poor patterns. If you're the architect of a larger 0MQ application, you're going to have to help others find the right patterns for working together. Do this right, and your project can succeed. Do it wrong, and your project will fail.
+社会架构的信条之一就是//我们怎么组织//比//我们是谁//更重要。同样的团体，组织不同，可能就会导致完全不同的结果。普通人经过很好的组织也可以完成专家级别的工作。如果你是一个大型0MQ应用的架构师，你就要找到了正确模式来帮助别人更好的工作。干对了，你的项目就能成功。干错了，你的项目也就失败了。
 
-The two most important psychological elements are that we're really bad at understanding complexity and that we are so good at working together to divide and conquer large problems. We're highly social apes, and kind of smart, but only in the right kind of crowd.
+心理要素的最重要的两点是：我们并不善于理解复杂的东西，但我们善于协作将大的问题分而治之。我们是高度社会化的动物，在正确的人群中也拥有一定程度的智能。
 
-So here is my short list of the Psychological Elements of Software Architecture:
+那么下面就是一份软件架构的心理学要素简要清单：
 
-* **Stupidity**: our mental bandwidth is limited, so we're all stupid at some point. The architecture has to be simple to understand. This is the number one rule: simplicity beats functionality, every single time. If you can't understand an architecture on a cold gray Monday morning before coffee, it is too complex.
+* **笨**：我们的精神带宽是有限的，因此到了某种程度我们就都笨了。因此架构需要简单并容易理解。第一条：任何时候，简单胜过
+功能性。如果你都不能在阴暗寒冷的周一早咖啡前明白的架构，那就太复杂了。
 
-* **Selfishness**: we act only out of self-interest, so the architecture must create space and opportunity for selfish acts that benefit the whole. Selfishness is often indirect and subtle. For example, I'll spend hours helping someone else understand something because that could be worth days to me later.
+* **自私**：我们都喜欢按自己的兴趣来，那么架构必须留足空间和可能，能让全部人都能受益。自私并不总是那么直接，比如说，我花了数小时帮别人理解某事，而这对我来说节省了之后好几天的时间。
 
-* **Laziness**: we make lots of assumptions, many of which are wrong. We are happiest when we can spend the least effort to get a result or to test an assumption quickly, so the architecture has to make this possible. Specifically, that means it must be simple.
+* **懒惰**：我们做了很多的假设，其中大部分是错误的。我们都很乐于轻松的测试来获得假设的结果，因此架构也要让这成为可能。具体的来说，这也是要求简单。
 
-* **Jealousy**: we're jealous of others, which means we'll overcome our stupidity and laziness to prove others wrong and beat them in competition. The architecture thus has to create space for public competition based on fair rules that anyone can understand.
+* **嫉妒**：我们都嫉妒别人，因此我们会战胜愚蠢和懒惰来证明别人是错的。因此架构需要创造一点公开公平竞争的空间。
 
-* **Fear**: we're unwilling to take risks, especially if it makes us look stupid. Fear of failure is a major reason people conform and follow the group in mass stupidity. The architecture should make silent experimentation easy and cheap, giving people opportunity for success without punishing failure.
+* **害怕**：我们都不愿意冒险，尤其当这会让我们觉得自己很笨的时候。害怕失败经常会成为人们的借口，甚至不惜与笨人为伍。因此架构也要让试验的代价变小，让人有机会冒着很小的风险追求成功。
 
-* **Reciprocity**: we'll pay extra in terms of hard work, even money, to punish cheats and enforce fair rules. The architecture should be heavily rule-based, telling people how to work together, but not what to work on.
+* **互利互惠**：我们在禁止抄袭和维持公正上会付出额外的代价。因此架构要有强力的规则，告诉人们可以合作，但是有些事不能做。
 
-* **Conformity**: we're happiest to conform, out of fear and laziness, which means if the patterns are good, clearly explained and documented, and fairly enforced, we'll naturally choose the right path every time.
+* **约定俗成**：除了害怕和懒惰，其实我们还是乐于遵守规定的。也就是说，如果模式是正确、清楚、成文并强制执行的，我们自然而然会选择正确的道路。
 
-* **Pride**: we're intensely aware of our social status, and we'll work hard to avoid looking stupid or incompetent in public. The architecture has to make sure every piece we make has our name on it, so we'll have sleepless nights stressing about what others will say about our work.
+* **骄傲**：我们还是很看中自己的社会地位的，而且我们为了避免被看作愚蠢无能，会非常努力。架构要确保每个人的功劳都被记住，为了别人对自己工作的评价，我们甚至会不眠不休。
 
-* **Greed**: we're ultimately economic animals (see selfishness), so the architecture has to give us economic incentive to invest in making it happen. Maybe it's polishing our reputation as experts, maybe it's literally making money from some skill or component. It doesn't matter what it is, but there must be economic incentive. Think of architecture as a market place, not an engineering design.
+* **贪婪**：我们最终还是利益化的动物（见自私），因此架构还是要给一些利益上的刺激。可以是被称赞为专家，也可以是从中获取金钱。无论如何，多少还是要有一些利益的刺激。把架构当作一个巨大的市场，而不是一个工程上的设计。
 
-These strategies work on a large scale but also on a small scale, within an organization or team.
+这些策略在大小规模的组织和团队里都很有用。
 
-+++ The Importance of Contracts
++++ 契约的重要性
 
-Let me discuss a contentious but important area, which is what license to choose. I'll say "BSD" to cover MIT, X11, BSD, Apache, and similar licenses, and "GPL" to cover GPLv3, LGPLv3, and AGPLv3. The significant difference is the obligation to share back any forked versions, which prevents any entity from capturing the software, and thus keeps it "free".
+我们来谈谈一点争议不断但是非常重要的事，那就是选一个什么样的许可。我将用“BSD”代指MIT，X11，BSD，Apache等许可，用“GPL”代指GPLv3，LGPLv3以及AGPLv3。最显著的差距是需不需要把分出去的版本分享回原版本，这样可以阻止别人占有该软件，这样就可以保证“自由”。
 
-A software license isn't technically a contract since you don't sign anything. But broadly, calling it a contract is useful since it takes the obligations of each party, and makes them legally enforceable in court, under copyright law.
+软件许可并不是技术上的契约，因为你都不需要签字。但是总的来说，叫他契约还是很有用的，因为它规定了各方的责任，并且在法院里也是有法律保证的（版权法）。
 
-You might ask, why do we need contracts at all to make open source? Surely it's all about decency, goodwill, people working together for selfless motives. Surely the principle of "less is more" applies here of all places? Don't more rules mean less freedom? Do we really need lawyers to tell us how to work together? It seems cynical and even counter-productive to force a restrictive set of rules on the happy communes of free and open source software.
+你可能会问，开源为什么还需要契约？确实，人们行为正派、意愿高尚，通过无私的合作贡献给开源世界。但是，“少即是多”在任何地方都能有效么？规则越多就意味着自由越少？我们真的需要律师告诉我们怎么协同工作？看起来，给亲密无间的自由开源软件加上这么多限制条件，显得有些愤青而斤斤计较。
 
-But the truth about human nature is not that pretty. We're not really angels, nor devils, just self-interested winners descended from a billion-year unbroken line of winners. In business, marriage, and collective works, sooner or later, we either stop caring, or we fight and we argue.
+但是事实是人类社会没有那么完美，我们不是天使也不是恶魔，而是万年不变、自私的利己主义者。无论事业、婚姻、集体活动，我们早晚会互不关心，甚至争斗。
 
-Put this another way: a collective work has two extreme outcomes. Either it's a failure, irrelevant, and worthless, in which case every sane person walks away, without a fight. Or, it's a success, relevant, and valuable, in which case we start jockeying for power, control, and often, money.
+换句话说：集体活动会有两种极端的结果。要么就是失败、冷漠、意义全无，最后人走茶凉，甚至还会引发斗争。要么就是成功、紧密团结、荣誉，人们获得能力、掌控，而且还经常伴随着金钱。
 
-What a well-written contract does is to protect those valuable relationships from conflict. A marriage where the terms of divorce are clearly agreed up-front is much less likely to end in divorce. A business deal where both parties agree how to resolve various classic conflicts--such as one party stealing the others' clients or staff--is much less likely to end in conflict.
+而良好的契约，其实是保护那些有价值的关系，让其远离纷争。在婚前就清楚明晰达成关于离婚事宜的夫妇最后反而不会离婚。而一开始就规定好怎么解决双方纷争（比如一方偷走另一方的客户或雇员）的生意最后都不怎么会黄。
 
 Similarly, a software project that has a well-written contract that defines the terms of breakup clearly is much less likely to end in breakup. The alternative seems to be to immerse the project into a larger organization that can assert pressure on teams to work together (or lose the backing and branding of the organization). This is for example how the Apache Foundation works. In my experience organization building has its own costs, and ends up favoring wealthier participants (who can afford those sometimes huge costs).
 
