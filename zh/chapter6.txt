@@ -192,6 +192,7 @@ You cannot scale a single project with many owners like you can scale a collecti
 So in 0MQ, we aimed to make it easy to write bindings on top of the core library, and we stopped trying to make those bindings ourselves. This created space for others to make those, become their owners, and get that credit.
 
 +++ Care and Feeding
++++ 关心、哺育
 
 I wish a community could be 100% self-steering, and perhaps one day this will work, but today it's not the case. We're very close with 0MQ, but from my experience a community needs four types of care and feeding:
 
@@ -208,12 +209,14 @@ I've seen communities of brilliant people with noble goals dying because the fou
 The best answer I can find is a mix of two things. One, the GPL and its guarantee of remixability. No matter how bad the authority, no matter how much they try to privatize and capture the community's work, if it's GPL licensed, that work can walk away and find a better authority. Before you say, "all open source offers this," think it through. I can kill a BSD-licensed project by hiring the core contributors and not releasing any new patches. But even with a billion of dollars, I //cannot// kill a GPL-licensed project. Two, the philosophical anarchist model of authority, which is that we choose it, it does not own us.
 
 ++ The 0MQ Process: C4
+++ 0MQ的过程：C4
 
 When we say 0MQ we sometimes mean {{libzmq}}, the core library. In early 2012, we synthesized the {{libzmq}} process into a formal protocol for collaboration that we called the [http://rfc.zeromq.org/spec:22 Collective Code Construction Contract], or C4. You can see this as a layer above the GPL. In fact {{libzmq}} doesn't quite stick to C4 because for historic reasons we use Jira instead of the GitHub issue tracker. Apart from that, these are our rules, and I'll explain the reasoning behind each one.
 
 C4 is an evolution of the GitHub [http://help.github.com/send-pull-requests/ Fork + Pull Model]. You may get the feeling I'm a fan of git and GitHub. This would be accurate: these two tools have made such a positive impact on our work over the last years, especially when it comes to building community.
 
 +++ Language
++++ 语言
 
 > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
 
@@ -224,6 +227,7 @@ I think C4 is the first time anyone has attempted to codify a community's rulebo
 It's easy to use C4: just host your project on GitHub, get one other person to join, and open the floor to pull requests. In your README, put a link to C4 and that's it. We've done this in quite a few projects and it does seem to work. I've been pleasantly surprised a few times just applying these rules to my own work, like CZMQ. None of us are so amazing that we can work without others.
 
 +++ Goals
++++ 目标
 
 > C4 is meant to provide a reusable optimal collaboration model for open source software projects.
 
@@ -259,6 +263,7 @@ Curious observation: people who thrive in complex situations like to create comp
 Ultimately, we're economic creatures, and the sense that "we own this, and our work can never be used against us" makes it much easier for people to invest in an open source project like 0MQ. And it can't be just a feeling, it has to be real. There are a number of aspects to making collective ownership work, we'll see these one-by-one as we go through C4.
 
 +++ Preliminaries
++++ 前期准备
 
 > The project SHALL use the git distributed revision control system.
 
@@ -293,6 +298,7 @@ We had to state this explicitly. It used to be that the {{libzmq}} maintainers w
 I think this fight between individual expertise and collective intelligence plays out in other areas. It defined Wikipedia, and still does, a decade after that work surpassed anything built by small groups of experts. For me, we make software by slowly synthesizing the most accurate knowledge, much as we make Wikipedia articles.
 
 +++ Licensing and Ownership
++++ 许可和所有权
 
 > The project SHALL use the GPLv3 or a variant thereof (LGPL, AGPL).
 
@@ -315,6 +321,7 @@ This is perhaps redundant, but worth saying: if everyone owns their patches, the
 In other words, the maintainers are not karma accountants. Anyone who wants credit has to claim it themselves.
 
 +++ Patch Requirements
++++ 补丁的要求
 
 In this section, we define the obligations of the contributor: specifically, what constitutes a "valid" patch, so that maintainers have rules they can use to accept or reject patches.
 
@@ -353,6 +360,7 @@ This is a good format for commit messages that fits into email (the first line b
 Just in case it wasn't clear, we're back to legalese and definitions.
 
 +++ Development Process
++++ 开发流程
 
 In this section, we aim to describe the actual development process, step-by-step.
 
@@ -433,6 +441,7 @@ In essence, the goal here is to allow users to try patches rather than to spend 
 This exit allows maintainers who are making release notes to push those without having to create an issue which would then affect the release notes, leading to stress on the space time fabric and possibly involuntary rerouting backwards in the fourth dimension to before the invention of cold beer. Shudder. It is simpler to agree that release notes aren't technically software.
 
 +++ Creating Stable Releases
++++ 制作稳定版本
 
 We want some guarantee of stability for a production system. In the past, this meant taking unstable code and then over months hammering out the bugs and faults until it was safe to trust. iMatix's job, for years, has been to do this to {{libzmq}}, turning raw code into packages by allowing only bug fixes and no new code into a "stabilization branch". It's surprisingly not as thankless as it sounds.
 
@@ -462,6 +471,7 @@ Stabilization projects have maintainers and contributors like any project. In pr
 Beware of a one-size-fits-all process. New code does not need the same paranoia as code that people are trusting for production use. In the normal development process, we did not mention test cases. There's a reason for this. While I love testable patches, many changes aren't easily or at all testable. However, to stabilize a code base you want to fix only serious bugs, and you want to be 100% sure every change is accurate. This means before and after tests for every change.
 
 +++ Evolution of Public Contracts
++++ 公共契约的演化
 
 By "public contracts", I mean APIs and protocols. Up until the end of 2011, {{libzmq}}'s naturally happy state was marred by broken promises and broken contracts. We stopped making promises (aka "road maps") for {{libzmq}} completely, and our dominant theory of change is now that it emerges carefully and accurately over time. At a 2012 Chicago meetup, Garrett Smith and Chuck Remes called this the "drunken stumble to greatness", which is how I think of it now.
 
@@ -504,6 +514,7 @@ Ah, yes, the joy when 0MQ v3.x renamed the top-used API functions ({{zmq_send[3]
 I've not tested this rule to be certain it makes sense. Perhaps what it means is "if you can't provoke a compile error because the API is dynamic, provoke an assertion".
 
 +++ Project Administration
++++ 项目管理
 
 > The project founders SHALL act as Administrators to manage the set of project Maintainers.
 
@@ -524,6 +535,7 @@ This was Ian Barber's suggestion: we need a way to crop inactive maintainers. Or
 C4 is not perfect. Few things are. The process for changing it (Digistan's COSS) is a little outdated now: it relies on a single-editor workflow with the ability to fork, but not merge. This seems to work but it could be better to use C4 for protocols like C4.
 
 ++ A Real-Life Example
+++ 真实的例子
 
 In [http://lists.zeromq.org/pipermail/zeromq-dev/2012-October/018838.html this email thread], Dan Goes asks how to make a publisher that knows when a new client subscribes, and sends out previous matching messages. It's a standard pub-sub technique called "last value caching". Now over a 1-way transport like pgm (where subscribers literally send no packets back to publishers), this can't be done. But over TCP, it can, if we use an XPUB socket and if that socket didn't cleverly filter out duplicate subscriptions to reduce upstream traffic.
 
@@ -626,6 +638,7 @@ git log
 And that is pretty much it, in terms of how much git one needs to learn and use to contribute patches to {{libzmq}}. Six git commands and some clicking on web pages. Most importantly to me as a naturally lazy, stupid, and easily confused developer, I don't have to learn git's internal models, and never have to do anything involving those infernal engines of structural complexity we call "git branches". Next up, the attempted assassination of git branches. Let's live dangerously!
 
 ++ Git Branches Considered Harmful
+++ Git分支被认为是有害的
 
 One of git's most popular features is its branches. Almost all projects that use git use branches, and the selection of the "best" branching strategy is like a rite of passage for an open source project. Vincent Driessen's [http://nvie.com/posts/a-successful-git-branching-model/ git-flow] may be the best known. It has //base// branches (master, develop), //feature// branches, //release// branches, //hotfix// branches, and //support// branches. Many teams have adopted git-flow, which even has git extensions to support it. I'm a great believer in popular wisdom, but sometimes you have to recognize mass delusion for what it is.
 
@@ -644,82 +657,96 @@ People have gotten used to the "multiple repositories" approach in ZeroMQ and we
 More profoundly, and perhaps this is why the majority seems to be "wrong": I think the the branches versus forks argument is really a deeper design versus evolve argument about how to make software optimally. I'll address that deeper argument in the next section. For now, I'll try to be scientific about my irrational hatred of branches, by looking at a number of criteria, and comparing branches and forks in each one.
 
 +++ Simplicity Versus Complexity
++++ 简单性对复杂性
 
 //The simpler, the better.//
 
 There is no inherent reason why branches are more complex than forks. However, git-flow uses //five types// of branch, whereas C4 uses two types of fork (development, and stable) and one branch (master). Circumstantial evidence is thus that branches lead to more complexity than forks. For new users, it is definitely, and we've measured this in practice, easier to learn to work with many repositories and no branches except master.
 
 +++ Change Latency
++++ 改变延迟
 
 //The smaller and more rapid the delivery, the better.//
 
 Development branches seem to correlate strongly with large, slow, risky deliveries. "Sorry, I have to merge this branch before we can test the new version" signals a breakdown in process. It's certainly not how C4 works, which is by focusing tightly on individual problems and their minimal solutions. Allowing branches in development raises change latency. Forks have a different outcome: it's up to the forker to ensure that his changes merge cleanly, and to keep them simple so they won't be rejected.
 
 +++ Learning Curve
++++ 学习曲线
 
 //The smoother the learning curve, the better.//
 
 Evidence definitely shows that learning to use git branches is complex. For some people, this is OK. For most developers, every cycle spent learning git is a cycle lost on more productive things. I've been told several times, by different people that I do not like branches because I "never properly learned git". That is fair, but it is a criticism of the tool, not the human.
 
 +++ Cost of Failure
++++ 失败的代价
 
 //The lower the cost of failure, the better.//
 
 Branches demand more perfection from developers because mistakes potentially affect others. This raises the cost of failure. Forks make failure extremely cheap because literally nothing that happens in a fork can affect others not using that fork.
 
 +++ Up-front Coordination
++++ 提前协调
 
 //The less need for up-front coordination, the better.//
 
 You can do a hostile fork. You cannot do a hostile branch. Branches depend on up-front coordination, which is expensive and fragile. One person can veto the desires of a whole group. For example in the 0MQ community we were unable to agree on a git branching model for a year. We solved that by using forking instead. The problem went away.
 
 +++ Scalability
++++ 扩展性
 
 //The more you can scale a project, the better.//
 
 The strong assumption in all branch strategies is that the repository //is// the project. But there is a limit to how many people you can get to agree to work together in one repository. As I explained, the cost of up-front coordination can become fatal. A more realistic project scales by allowing anyone to start their own repositories, and ensuring these can work together. A project like 0MQ has dozens of repositories. Forking looks more scalable than branching.
 
 +++ Surprise and Expectations
++++ 惊喜和期望
 
 //The less surprising, the better.//
 
 People expect branches and find forks to be uncommon and thus confusing. This is the one aspect where branches win. If you use branches, a single patch will have the same commit hash tag, whereas across forks the patch will have different hash tags. That makes it harder to track patches as they cross forks, true. But seriously, //having to track hexadecimal hash tags is not a feature//. It's a bug. Sometimes better ways of working are surprising at first.
 
 +++ Economics of Participation
++++ 参与者生态
 
 //The more tangible the rewards, the better.//
 
 People like to own their work and get credit for it. This is much easier with forks than with branches. Forks create more competition in a healthy way, while branches suppress competition and force people to collaborate and share credit. This sounds positive but in my experience it demotivates people. A branch isn't a product you can "own", whereas a fork can be.
 
 +++ Robustness in Conflict
++++ 抵御斗争的能力
 
 //The more a model can survive conflict, the better.//
 
 Like it or not, people fight over ego, status, beliefs, and theories of the world. Challenge is a necessary part of science. If your organizational model depends on agreement, you won't survive the first real fight. Branches do not survive real arguments and fights, whereas forks can be hostile, and still benefit all parties. And this is indeed how free software works.
 
 +++ Guarantees of Isolation
++++ 隔离的保证
 
 //The stronger the isolation between production code and experiment, the better.//
 
 People make mistakes. I've seen experimental code pushed to mainline production by error. I've seen people make bad panic changes under stress. But the real fault is in allowing two entirely separate generations of product to exist in the same protected space. If you can push to random-branch-x, you can push to master. Branches do not guarantee isolation of production critical code. Forks do.
 
 +++ Visibility
++++ 可见性
 
 //The more visible our work, the better.//
 
 Forks have watchers, issues, a README, and a wiki. Branches have none of these. People try forks, build them, break them, patch them. Branches sit there until someone remembers to work on them. Forks have downloads and tarballs. Branches do not. When we look for self-organization, the more visible and declarative the problems, the faster and more accurately we can work.
 
 +++ Conclusions
++++ 结论
 
 In this section, I've listed a series of arguments, most of which came from fellow team members. Here's how it seems to break down: git veterans insist that branches are the way to work, whereas newcomers tend to feel intimidated when asked to navigate git branches. Git is not an easy tool to master. What we've discovered, accidentally, is that when you stop using branches //at all//, git becomes trivial to use. It literally comes down to six commands ({{clone}}, {{remote}}, {{commit}}, {{log}}, {{push}}, and {{pull}}). Furthermore, a branch-free process actually works, we've used it for a couple of years now, and no visible downside except surprise to the veterans and growth of "single" projects over multiple repositories.
 
 If you can't use forks, perhaps because your firm doesn't trust GitHub's private repositories, then you can perhaps use topic branches, one per issue. You'll still suffer the costs of getting up-front consensus, low competitiveness, and risk of human error.
 
 ++ Designing for Innovation
+++ 设计创新
 
 Let's look at innovation, which Wikipedia defines as, "the development of new values through solutions that meet new requirements, inarticulate needs, or old customer and market needs in value adding new ways." This really just means solving problems more cheaply. It sounds straight-forward, but the history of collapsed tech giants proves that it's not. I'll try to explain how teams so often get it wrong, and suggest a way for doing innovation right.
 
 +++ The Tale of Two Bridges
++++ 两架桥的故事
 
 Two old engineers were talking of their lives and boasting of their greatest projects. One of the engineers explained how he had designed one of the greatest bridges ever made.
 
@@ -730,6 +757,7 @@ The second man reflected for a while, then spoke. "One evening me and a friend g
 The first engineer was silent. "Funny thing," he said, "my bridge was demolished about ten years after we built it. Turns out it was built in the wrong place and no one wanted to use it. Some guys had thrown a rope across the gorge, a few miles further downstream, and that's where everyone went."
 
 +++ How 0MQ Lost Its Road Map
++++ 0MQ是怎么弄丢路线图的
 
 Presenting 0MQ at the Mix-IT conference in Lyon in early 2012, I was asked several times for the "road map". My answer was: there is no road map any longer. We had road maps, and we deleted them. Instead of a few experts trying to lay out the next steps, we were allowing this to happen organically. The audience didn't really like my answer. So un-French.
 
@@ -780,6 +808,7 @@ SOD is relevant first because it's how we evolve 0MQ. It's also the basis for th
 To best understand how we ended up with SOD, let's look at the alternatives.
 
 +++ Trash-Oriented Design
++++ 面向垃圾的设计
 
 The most popular design process in large businesses seems to be //Trash-Oriented Design//, or TOD. TOD feeds off the belief that all we need to make money are great ideas. It's tenacious nonsense, but a powerful crutch for people who lack imagination. The theory goes that ideas are rare, so the trick is to capture them. It's like non-musicians being awed by a guitar player, not realizing that great talent is so cheap it literally plays on the streets for coins.
 
@@ -814,6 +843,7 @@ The main lessons of TOD are quite straightforward but hard to swallow. They are:
 Now, after slaying the dragon of utter irrelevance, we attack the demon of complexity.
 
 +++ Complexity-Oriented Design
++++ 面向复杂的设计
 
 Really good engineering teams and small firms can usually build decent products. But the vast majority of products still end up being too complex and less successful than they might be. This is because specialist teams, even the best, often stubbornly apply a process I call //Complexity-Oriented Design//, or COD, which works as follows:
 
@@ -848,6 +878,7 @@ The main lessons of COD are also simple, but hard for experts to swallow. They a
 * Engineers and designers love to make stuff and decoration, and this inevitably leads to complexity. It is crucial to have a "stop mechanism", a way to set short, hard deadlines that force people to make smaller, simpler answers to just the most crucial problems.
 
 +++ Simplicity Oriented Design
++++ 面向简单性的设计
 
 Finally, we come to the rare but precious //Simplicity Oriented Design//, or SOD. This process starts with a realization: we do not know what we have to make until after we start making it. Coming up with ideas or large-scale designs isn't just wasteful, it's a direct hindrance to designing the truly accurate solutions. The really juicy problems are hidden like far valleys, and any activity except active scouting creates a fog that hides those distant valleys. You need to keep mobile, pack light, and move fast.
 
@@ -884,6 +915,7 @@ A really good designer with a good team can use SOD to build world-class product
 In an open source setting, we do this work in public. There's no "let's open the code" moment. Projects that do this are in my view missing the point of open source, which is to engage your users in your exploration, and to build community around the seed of the architecture.
 
 ++ Burnout
+++ 燃尽
 
 The 0MQ community has been and still is heavily dependent on pro bono individual efforts. I'd like to think that everyone was compensated in some way for their contributions, and I believe that with 0MQ, contributing means gaining expertise in an extraordinarily valuable technology, which leads to improved professional options.
 
@@ -912,100 +944,117 @@ When someone is working alone on a critical project, you //know// they are going
 There is a simple cure for burnout that works in at least some cases: get paid decently for your work. However, this pretty much destroys the freedom of movement (across that infinite problem landscape) that the volunteer enjoys.
 
 ++ Patterns for Success
+++ 成功的模式
 
 I'll end this code-free chapter with a series of patterns for success in software engineering. They aim to capture the essence of what divides glorious success from tragic failure. They were described as "religious maniacal dogma" by a manager, and "anything else would be effing insane" by a colleague, in a single day. For me, they are science. But treat the Lazy Perfectionist and others as tools to use, sharpen, and throw away if something better comes along.
 
 +++ The Lazy Perfectionist
++++ 懒惰的完美主义者
 
 //Never design anything that's not a precise minimal answer to a problem we can identify and have to solve.//
 
 The Lazy Perfectionist spends his idle time observing others and identifying problems that are worth solving. He looks for agreement on those problems, always asking, "What is the //real// problem". Then he moves, precisely and minimally, to build, or get others to build, a usable answer to one problem. He uses, or gets others to use those solutions. And he repeats this until there are no problems left to solve, or time or money runs out.
 
 +++ The Benevolent Tyrant
++++ 仁慈的独裁者
 
 //The control of a large force is the same principle as the control of a few men: it is merely a question of dividing up their numbers.// -- Sun Tzu
 
 The Benevolent Tyrant divides large problems into smaller ones and throws them at groups to focus on. He brokers contracts between these groups, in the form of APIs and the "unprotocols" we'll read about in the next chapter. The Benevolent Tyrant constructs a supply chain that starts with problems, and results in usable solutions. He is ruthless about how the supply chain works, but does not tell people what to work on, nor how to do their work.
 
 +++ The Earth and Sky
++++ 天与地
 
 //The ideal team consists of two sides: one writing code, and one providing feedback.//
 
 The Earth and Sky work together as a whole, in close proximity, but they communicate formally through issue tracking. Sky seeks out problems from others and from their own use of the product and feeds these to Earth. Earth rapidly answers with testable solutions. Earth and Sky can work through dozens of issues in a day. Sky talks to other users, and Earth talks to other developers. Earth and Sky may be two people, or two small groups.
 
 +++ The Open Door
++++ 敞开的大门
 
 //The accuracy of knowledge comes from diversity.//
 
 The Open Door accepts contributions from almost anyone. He does not argue quality or direction, instead allowing others to argue that and get more engaged. He calculates that even a troll will bring more diverse opinion to the group. He lets the group form its opinion about what goes into stable code, and he enforces this opinion with help of a Benevolent Tyrant.
 
 +++ The Laughing Clown
++++ 大笑的小丑
 
 //Perfection precludes participation.//
 
 The Laughing Clown, often acting as the Happy Failure, makes no claim to high competence. Instead his antics and bumbling attempts provoke others into rescuing him from his own tragedy. Somehow however, he always identifies the right problems to solve. People are so busy proving him wrong they don't realize they're doing valuable work.
 
 +++ The Mindful General
++++ 谨慎的民众
 
 //Make no plans. Set goals, develop strategies and tactics.//
 
 The Mindful General operates in unknown territory, solving problems that are hidden until they are nearby. Thus he makes no plans, but seeks opportunities, then exploits them rapidly and accurately. He develops tactics and strategies in the field, and teaches these to his men so they can move independently, and together.
 
 +++ The Social Engineer
++++ 社会工程师
 
 //If you know the enemy and know yourself, you need not fear the result of a hundred battles.// -- Sun Tzu
 
 The Social Engineer reads the hearts and minds of those he works with and for. He asks, of everyone, "What makes this person angry, insecure, argumentative, calm, happy?" He studies their moods and dispositions. With this knowledge he can encourage those who are useful, and discourage those who are not. The Social Engineer never acts on his own emotions.
 
 +++ The Constant Gardener
++++ 辛勤的园丁
 
 //He will win whose army is animated by the same spirit throughout all its ranks.// -- Sun Tzu
 
 The Constant Gardener grows a process from a small seed, step-by-step as more people come into the project. He makes every change for a precise reason, with agreement from everyone. He never imposes a process from above but lets others come to consensus, and then he enforces that consensus. In this way, everyone owns the process together and by owning it, they are attached to it.
 
 +++ The Rolling Stone
++++ 滚石
 
 //After crossing a river, you should get far away from it.// -- Sun Tzu
 
 The Rolling Stone accepts his own mortality and transience. He has no attachment to his past work. He accepts that all that we make is destined for the trash can, it is just a matter of time. With precise, minimal investments, he can move rapidly away from the past and stay focused on the present and near future. Above all, he has no ego and no pride to be hurt by the actions of others.
 
 +++ The Pirate Gang
++++ 海盗团
 
 //Code, like all knowledge, works best as collective--not private--property.//
 
 The Pirate Gang organizes freely around problems. It accepts authority insofar as authority provides goals and resources. The Pirate Gang owns and shares all it makes: every work is fully remixable by others in the Pirate Gang. The gang moves rapidly as new problems emerge, and is quick to abandon old solutions if those stop being relevant. No persons or groups can monopolize any part of the supply chain.
 
 +++ The Flash Mob
++++ 机灵的暴民
 
 //Water shapes its course according to the nature of the ground over which it flows.// -- Sun Tzu
 
 The Flash Mob comes together in space and time as needed, then disperses as soon as they can. Physical closeness is essential for high-bandwidth communications. But over time it creates technical ghettos, where Earth gets separated from Sky. The Flash Mob tends to collect a lot of frequent flier miles.
 
 +++ The Canary Watcher
++++ 伯乐
 
 //Pain is not, generally, a Good Sign.//
 
 The Canary Watcher measures the quality of an organization by the their own pain level, and the observed pain levels of those with whom he works. He brings new participants into existing organizations so they can express the raw pain of the innocent. He may use alcohol to get others to verbalize their pain points. He asks others, and himself, "Are you happy in this process, and if not, why not?" When an organization causes pain in himself or others, he treats that as a problem to be fixed. People should feel joy in their work.
 
 +++ The Hangman
++++ 刽子手
 
 //Never interrupt others when they are making mistakes.//
 
 The Hangman knows that we learn only by making mistakes, and he gives others copious rope with which to learn. He only pulls the rope gently, when it's time. A little tug to remind the other of their precarious position. Allowing others to learn by failure gives the good reason to stay, and the bad excuse to leave. The Hangman is endlessly patient, because there is no shortcut to the learning process.
 
 +++ The Historian
++++ 史学家
 
 //Keeping the public record may be tedious, but it's the only way to prevent collusion.//
 
 The Historian forces discussion into the public view, to prevent collusion to own areas of work. The Pirate Gang depends on full and equal communications that do not depend on momentary presence. No one really reads the archives, but the simply possibility stops most abuses. The Historian encourages the right tool for the job: email for transient discussions, IRC for chatter, wikis for knowledge, issue tracking for recording opportunities.
 
 +++ The Provocateur
++++ 奸细
 
 //When a man knows he is to be hanged in a fortnight, it concentrates his mind wonderfully.// -- Samuel Johnson
 
 The Provocateur creates deadlines, enemies, and the occasional impossibility. Teams work best when they don't have time for the crap. Deadlines bring people together and focus the collective mind. An external enemy can move a passive team into action. The Provocateur never takes the deadline too seriously. The product is //always// ready to ship. But he gently reminds the team of the stakes: fail, and we all look for other jobs.
 
 +++ The Mystic
++++ 神秘主义者
 
 //When people argue or complain, just write them a Sun Tzu quotation// -- Mikko Koppanen
 
